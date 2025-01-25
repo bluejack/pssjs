@@ -3,26 +3,29 @@ import fs from 'fs';
 import os from 'os';
 import { v4 as uuidv4 } from 'uuid';
 
-import { PlayerService, ShipService } from './types.js';
+import { 
+  FleetService,
+  PlayerService, 
+  ShipService } from './types.js';
 
 import { auth } from './pss-auth.js';
 
 import players from './players.js';
 import ships from './ships.js';
+import fleets from './fleets.js';
 
 const homedir = os.homedir();
 
 export class PSSClient {
 
   device: string;
-  auth_token: string;
   cfg_file: string = `${homedir}/.pss.cfg`;
 
   players: PlayerService = players;
   ships: ShipService = ships;
+  fleets: FleetService = fleets;
 
   constructor() {
-    this.auth_token = "";
     this.device = "";
     try {
       fs.accessSync(this.cfg_file, fs.constants.F_OK);
@@ -35,11 +38,9 @@ export class PSSClient {
     }
   }
 
-  async connect() : Promise<string> {
-
-    console.log("Auth with ${this.device}");
-    return await auth(this.device);
-
+  async connect() : Promise<boolean> {
+    if(! await auth(this.device)) return false;
+    return true;
   }
 
 }

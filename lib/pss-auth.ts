@@ -37,13 +37,17 @@ async function device_login(checksum : string, pss_time : string, device : strin
   return res['UserService']['UserLogin']['accessToken'];
 }
 
-/* Requires the environment variable PSS_SALT to be configured with the
- * not-so-secret savy soda string to sorta maybe password the hash.
- */
-export async function auth(device : string) : Promise<string> {
+
+let access_token = "";
+
+export function tkn() : string {
+  return access_token;
+}
+
+export async function auth(device: string) : Promise<string | null> {
   const pss_time = pss_datetime();
   const salt = process.env.PSS_SALT || "";
   const checksum = compute_checksum(device, salt, pss_time);
-  console.log(checksum);
-  return await device_login(checksum, pss_time, device);
+  access_token = await device_login(checksum, pss_time, device);
+  return access_token;
 }

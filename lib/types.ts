@@ -10,9 +10,24 @@ export interface Player {
   fleet: string,
 }
 
+export interface Ship {
+  level: number,
+  power: number
+}
+
+export interface Fleet {
+  name: string,
+  members: number,
+  trophies: number
+}
+
+export interface FleetService {
+  by_ranking: (skip : number, limit: number ) => Promise<[Fleet] | null>
+}
+
 export interface RequestService {
-  get: ( service : string, command : string, params : Record<string, string>, auth_token? : string ) => Promise<Record<string, string | number>>,
-  post: ( service : string, command : string, params : Record<string, string>, auth_token? : string ) => Promise<Record<string, string | number>>
+  get: ( service : string, command : string, params : Record<string, string>) => Promise<Record<string, string | number>>,
+  post: ( service : string, command : string, params : any) => Promise<any>
 }
 
 export interface PlayerService {
@@ -20,6 +35,6 @@ export interface PlayerService {
 }
 
 export interface ShipService {
-  for_user: ( authToken : string, userId : string ) => Promise<any>
+  for_user: ( userId : number ) => Promise<any>
 }
 

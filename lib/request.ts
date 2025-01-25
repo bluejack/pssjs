@@ -20,8 +20,7 @@ export default (() => {
     if (res.ok) {
       try {
         const body = await res.text();
-        console.log(body);
-        return JSON.parse(parser.toJson(body))[service][command];
+        return JSON.parse(parser.toJson(body));
       }catch (err : any) {
         return err;
       }
@@ -42,7 +41,6 @@ export default (() => {
     if (res.ok) {
       try {
         const body = await res.text();
-        console.log(body);
         return JSON.parse(parser.toJson(body));
       }catch (err : any) {
         console.log("OOPS");
