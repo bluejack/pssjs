@@ -2,3 +2,4 @@ node_modules/
 dist/
 .DS_Store
 
+# There are up to 5343 additional entries we could put here.
